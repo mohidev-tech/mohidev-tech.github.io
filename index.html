@@ -350,11 +350,11 @@
 
   .hero h1 {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(3rem, 11vw, 9rem);
-    line-height: .95;
-    letter-spacing: -0.05em;
+    font-size: clamp(2.5rem, 6.5vw, 5rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
     font-weight: 700;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
   }
   .hero h1 .line {
     display: block;
@@ -384,14 +384,14 @@
 
   .hero-sub {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(1.4rem, 3.6vw, 2.2rem);
+    font-size: clamp(1.2rem, 2.6vw, 1.7rem);
     color: var(--text-dim);
     font-weight: 500;
     letter-spacing: -0.02em;
-    margin: 1.5rem 0 2rem;
+    margin: 1.25rem 0 1.75rem;
     opacity: 0;
     animation: fadeIn 1s 2s forwards;
-    min-height: 3rem;
+    min-height: 2.5rem;
   }
   .hero-sub #role {
     color: var(--text);
@@ -491,7 +491,7 @@
      SECTION HEADERS
      ============================================================ */
   section {
-    padding: 9rem 0;
+    padding: 7rem 0;
     position: relative;
   }
   .section-num {
@@ -510,11 +510,11 @@
   }
   .section-title {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
-    letter-spacing: -0.04em;
+    font-size: clamp(1.9rem, 4vw, 3rem);
+    letter-spacing: -0.03em;
     font-weight: 700;
-    line-height: 1.05;
-    margin-bottom: 4rem;
+    line-height: 1.1;
+    margin-bottom: 3rem;
     overflow: hidden;
   }
   .section-title .word {
@@ -981,11 +981,11 @@
   }
   .contact h2 {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(3rem, 8vw, 6rem);
-    letter-spacing: -0.05em;
+    font-size: clamp(2.2rem, 5vw, 3.75rem);
+    letter-spacing: -0.04em;
     font-weight: 700;
-    margin-bottom: 1.5rem;
-    line-height: 1;
+    margin-bottom: 1.25rem;
+    line-height: 1.05;
   }
   .contact h2 .gradient {
     background: linear-gradient(135deg, var(--accent), var(--accent-2), var(--accent-3));
@@ -1142,8 +1142,9 @@
     </div>
     <p class="hero-pitch">
       Five years of engineering across <strong>distributed systems</strong>,
-      <strong>low latency C++</strong>, <strong>event driven backends</strong>, and
-      <strong>cloud native platform security</strong>. Currently shipping at
+      <strong>low latency C++</strong>, <strong>event driven backends</strong>,
+      <strong>cloud native platform security</strong>, and most recently
+      <strong>LLM agent integration via MCP and RAG</strong>. Currently shipping at
       <strong>Wells Fargo</strong>, previously at <strong>IKEA</strong>. Comfortable from kernel epoll
       up to Kubernetes admission policies.
     </p>
@@ -1222,6 +1223,8 @@
       <span class="chip">Terraform</span><span class="chip">Prometheus</span><span class="chip">Grafana</span>
       <span class="chip">OpenTelemetry</span><span class="chip">Argo CD</span><span class="chip">Vault</span>
       <span class="chip">Sigstore</span><span class="chip">Istio</span><span class="chip">Falco</span>
+      <span class="chip">Claude API</span><span class="chip">MCP</span><span class="chip">RAG</span>
+      <span class="chip">pgvector</span><span class="chip">LangChain</span>
       <!-- duplicate for seamless loop -->
       <span class="chip">Java</span><span class="chip">Spring Boot 3</span><span class="chip">Kafka</span>
       <span class="chip">Kubernetes</span><span class="chip">PostgreSQL</span><span class="chip">Redis</span>
@@ -1230,6 +1233,8 @@
       <span class="chip">Terraform</span><span class="chip">Prometheus</span><span class="chip">Grafana</span>
       <span class="chip">OpenTelemetry</span><span class="chip">Argo CD</span><span class="chip">Vault</span>
       <span class="chip">Sigstore</span><span class="chip">Istio</span><span class="chip">Falco</span>
+      <span class="chip">Claude API</span><span class="chip">MCP</span><span class="chip">RAG</span>
+      <span class="chip">pgvector</span><span class="chip">LangChain</span>
     </div>
   </div>
 
@@ -1305,6 +1310,16 @@
           <span class="chip">OPA Gatekeeper</span><span class="chip">Sigstore Cosign</span>
           <span class="chip">SBOM Syft</span><span class="chip">Falco eBPF</span>
           <span class="chip">Istio mTLS</span><span class="chip">SOC2 NIST CIS</span>
+        </div>
+      </div>
+      <div class="skill-cat reveal delay-2">
+        <h3><span class="icon">🤖</span>AI and LLM Engineering</h3>
+        <div class="chip-list">
+          <span class="chip">Claude API</span><span class="chip">OpenAI API</span>
+          <span class="chip">MCP (Model Context Protocol)</span><span class="chip">RAG</span>
+          <span class="chip">pgvector</span><span class="chip">Vector Embeddings</span>
+          <span class="chip">LangChain</span><span class="chip">LLM as Judge</span>
+          <span class="chip">Prompt Engineering</span><span class="chip">Agentic Workflows</span>
         </div>
       </div>
     </div>
@@ -1496,6 +1511,9 @@
         <ul>
           <li>Built fault tolerant backends ingesting <strong>5K events per second at 99.95% uptime</strong> across 3 regions</li>
           <li>Cut p99 latency <strong>180ms to 140ms</strong> with Kafka pipelines and low latency C++ 17/20 components</li>
+          <li>Designed an <strong>MCP server</strong> exposing 12 internal microservices as tools for LLM agents, cutting on call manual triage time by <strong>40%</strong></li>
+          <li>Built a <strong>RAG pipeline</strong> over 200+ runbooks and Confluence docs using <strong>pgvector</strong> and Claude embeddings for natural language incident search</li>
+          <li>Integrated an LLM powered code review bot in CI (Claude API + AST diff) that flags design and security anti patterns on <strong>500+ PRs per month</strong></li>
           <li>Implemented Prometheus and Grafana observability across 15 services. <strong>35% MTTR reduction</strong></li>
           <li>Right sized JVM heaps and EKS node groups for <strong>22% monthly compute savings</strong></li>
           <li>Shipped 10 features over 2 quarters with zero unplanned downtime</li>
@@ -1617,6 +1635,8 @@
       'distributed systems',
       'low latency services',
       'event driven platforms',
+      'LLM powered tools',
+      'MCP servers',
       'secured kubernetes platforms',
       'reliable software'
     ];
