@@ -3,29 +3,29 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Mohith V — Backend / Distributed Systems / Platform Security Engineer</title>
-<meta name="description" content="Mohith V — 5 years building distributed systems, low-latency backends, DevSecOps platforms. Wells Fargo, IKEA. Java, Python, Go, C++." />
+<title>Mohith V. Software Engineer.</title>
+<meta name="description" content="Mohith V. Software engineer building distributed systems, low latency backends, and cloud native security platforms. Wells Fargo, IKEA. Java, Python, Go, C++." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-  /* ─── Design tokens ──────────────────────────────────────────────── */
+  /* ============================================================
+     DESIGN TOKENS
+     ============================================================ */
   :root[data-theme="dark"] {
-    --bg:        #0a0e1a;
-    --bg-2:      #0f1424;
-    --surface:   #141a2e;
-    --surface-2: #1c2340;
-    --border:    #2a3454;
-    --text:      #e6e8f0;
-    --text-dim:  #8a93b2;
-    --text-mute: #5b6587;
-    --accent:    #5eead4;
-    --accent-2:  #818cf8;
-    --accent-glow: rgba(94,234,212,.18);
-    --grad-1:    #5eead4;
-    --grad-2:    #818cf8;
-    --grad-3:    #f472b6;
-    --shadow:    0 20px 50px -10px rgba(0,0,0,.6);
+    --bg:        #05060d;
+    --bg-2:      #0a0d1c;
+    --surface:   #101428;
+    --surface-2: #161b35;
+    --border:    #232a4d;
+    --text:      #f0f2ff;
+    --text-dim:  #8590b8;
+    --text-mute: #555c80;
+    --accent:    #22d3ee;
+    --accent-2:  #a78bfa;
+    --accent-3:  #f472b6;
+    --accent-glow: rgba(34, 211, 238, .35);
+    --shadow:    0 30px 80px -10px rgba(0,0,0,.7);
   }
   :root[data-theme="light"] {
     --bg:        #fafbff;
@@ -33,354 +33,670 @@
     --surface:   #ffffff;
     --surface-2: #f5f7fc;
     --border:    #e2e8f5;
-    --text:      #0f1424;
+    --text:      #0a0d1c;
     --text-dim:  #4a5577;
     --text-mute: #7a85a3;
-    --accent:    #0ea5e9;
-    --accent-2:  #6366f1;
-    --accent-glow: rgba(14,165,233,.15);
-    --grad-1:    #0ea5e9;
-    --grad-2:    #6366f1;
-    --grad-3:    #ec4899;
-    --shadow:    0 20px 40px -10px rgba(15,20,36,.15);
+    --accent:    #0891b2;
+    --accent-2:  #7c3aed;
+    --accent-3:  #db2777;
+    --accent-glow: rgba(8, 145, 178, .2);
+    --shadow:    0 20px 50px -10px rgba(15,20,36,.18);
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Inter', 'Helvetica Neue', system-ui, sans-serif;
     line-height: 1.6;
     overflow-x: hidden;
-    transition: background .4s ease, color .4s ease;
+    cursor: none;
+    transition: background .6s ease, color .6s ease;
   }
+  @media (max-width: 900px) { body { cursor: auto; } }
   ::selection { background: var(--accent); color: var(--bg); }
 
-  /* ─── Animated particle background ──────────────────────────────── */
+  a, button { cursor: none; }
+  @media (max-width: 900px) { a, button { cursor: pointer; } }
+
+  /* ============================================================
+     INTRO LOADER
+     ============================================================ */
+  #loader {
+    position: fixed; inset: 0;
+    background: var(--bg);
+    z-index: 999;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    transition: opacity .8s ease, visibility .8s ease;
+  }
+  #loader.gone { opacity: 0; visibility: hidden; pointer-events: none; }
+
+  .loader-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2rem, 6vw, 4rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    overflow: hidden;
+  }
+  .loader-name span {
+    display: inline-block;
+    transform: translateY(110%);
+    animation: nameRise .8s cubic-bezier(.16,1,.3,1) forwards;
+  }
+  .loader-name span:nth-child(2) { animation-delay: .08s; }
+  .loader-name span:nth-child(3) { animation-delay: .16s; }
+  .loader-name span:nth-child(4) { animation-delay: .24s; }
+  .loader-name span:nth-child(5) { animation-delay: .32s; }
+  .loader-name span:nth-child(6) { animation-delay: .40s; }
+  .loader-name span:nth-child(7) { animation-delay: .48s; }
+  .loader-name span:nth-child(8) { animation-delay: .56s; }
+  @keyframes nameRise {
+    to { transform: translateY(0); }
+  }
+
+  .loader-bar {
+    width: clamp(140px, 25vw, 240px);
+    height: 2px;
+    background: var(--surface-2);
+    margin-top: 2rem;
+    overflow: hidden;
+    border-radius: 2px;
+  }
+  .loader-bar::after {
+    content: '';
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    animation: loaderFill 1.4s cubic-bezier(.5,0,.3,1) .4s forwards;
+    transform-origin: left;
+    transform: scaleX(0);
+  }
+  @keyframes loaderFill {
+    to { transform: scaleX(1); }
+  }
+
+  /* ============================================================
+     CUSTOM CURSOR
+     ============================================================ */
+  .cursor-dot, .cursor-ring {
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    will-change: transform;
+    transition: transform .15s ease, width .25s ease, height .25s ease, background .25s ease, opacity .25s ease;
+  }
+  .cursor-dot {
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+  .cursor-ring {
+    width: 40px; height: 40px;
+    border: 1.5px solid var(--accent);
+    border-radius: 50%;
+    opacity: .7;
+  }
+  body.cursor-grow .cursor-ring {
+    width: 80px; height: 80px;
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    border-color: transparent;
+    opacity: 1;
+  }
+  body.cursor-grow .cursor-dot { opacity: 0; }
+  @media (max-width: 900px) {
+    .cursor-dot, .cursor-ring { display: none; }
+  }
+
+  /* ============================================================
+     BACKGROUND LAYERS
+     ============================================================ */
   #bg-canvas {
-    position: fixed; top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: -2;
-    opacity: .55;
+    position: fixed; inset: 0;
+    z-index: -3;
+    opacity: .5;
     pointer-events: none;
   }
-  .bg-gradient {
+  .bg-orbs {
+    position: fixed; inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: .35;
+    animation: orbFloat 24s ease-in-out infinite;
+  }
+  .orb-1 {
+    width: 500px; height: 500px;
+    background: var(--accent);
+    top: -150px; left: -100px;
+  }
+  .orb-2 {
+    width: 600px; height: 600px;
+    background: var(--accent-2);
+    bottom: -200px; right: -150px;
+    animation-delay: -8s;
+  }
+  .orb-3 {
+    width: 400px; height: 400px;
+    background: var(--accent-3);
+    top: 40%; left: 50%;
+    opacity: .2;
+    animation-delay: -16s;
+  }
+  @keyframes orbFloat {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33%      { transform: translate(60px, -40px) scale(1.1); }
+    66%      { transform: translate(-40px, 50px) scale(.95); }
+  }
+  .mouse-spotlight {
     position: fixed;
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background:
-      radial-gradient(at 15% 20%, var(--accent-glow), transparent 50%),
-      radial-gradient(at 85% 80%, color-mix(in srgb, var(--accent-2) 18%, transparent), transparent 50%);
+    background: radial-gradient(
+      600px circle at var(--mx, 50%) var(--my, 50%),
+      var(--accent-glow),
+      transparent 50%
+    );
+    transition: background .15s ease;
   }
 
-  /* ─── Nav ────────────────────────────────────────────────────────── */
+  /* Subtle grid overlay for depth */
+  .grid-overlay {
+    position: fixed; inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+  }
+  :root[data-theme="light"] .grid-overlay {
+    background-image:
+      linear-gradient(rgba(0,0,0,.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,0,0,.025) 1px, transparent 1px);
+  }
+
+  /* ============================================================
+     NAV
+     ============================================================ */
   nav {
     position: fixed; top: 0; left: 0; right: 0;
-    padding: 1rem 2rem;
+    padding: 1.25rem 2.5rem;
     display: flex; justify-content: space-between; align-items: center;
-    background: color-mix(in srgb, var(--bg) 70%, transparent);
-    backdrop-filter: blur(12px) saturate(140%);
-    -webkit-backdrop-filter: blur(12px) saturate(140%);
-    border-bottom: 1px solid var(--border);
+    background: color-mix(in srgb, var(--bg) 65%, transparent);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border-bottom: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
     z-index: 100;
-    transition: all .3s ease;
+    transition: padding .3s ease;
   }
+  nav.scrolled { padding: .8rem 2.5rem; }
   nav .brand {
+    font-family: 'Space Grotesk', sans-serif;
     font-weight: 700;
     font-size: 1.1rem;
-    letter-spacing: -0.01em;
-    display: flex; align-items: center; gap: .5rem;
+    letter-spacing: -0.02em;
+    display: flex; align-items: center; gap: .65rem;
+    color: var(--text);
+    text-decoration: none;
   }
   nav .brand .dot {
     width: 8px; height: 8px;
     background: var(--accent);
     border-radius: 50%;
-    box-shadow: 0 0 12px var(--accent);
-    animation: pulse 2s infinite;
+    box-shadow: 0 0 14px var(--accent);
+    animation: pulse 2.2s infinite;
   }
   @keyframes pulse {
     0%, 100% { opacity: 1; transform: scale(1); }
-    50%      { opacity: .6; transform: scale(1.2); }
+    50%      { opacity: .55; transform: scale(1.25); }
   }
   nav ul {
-    display: flex; gap: 2rem; list-style: none;
+    display: flex; gap: 2.2rem; list-style: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .85rem;
   }
   nav ul a {
     color: var(--text-dim);
     text-decoration: none;
-    font-size: .92rem;
     font-weight: 500;
-    transition: color .2s;
+    transition: color .25s;
     position: relative;
+    padding: .25rem 0;
+  }
+  nav ul a .num {
+    color: var(--accent);
+    font-size: .75rem;
+    margin-right: .35rem;
   }
   nav ul a:hover { color: var(--text); }
   nav ul a::after {
-    content: ''; position: absolute; bottom: -4px; left: 0;
-    width: 0; height: 2px;
+    content: '';
+    position: absolute;
+    left: 0; bottom: -2px;
+    width: 100%; height: 1px;
     background: var(--accent);
-    transition: width .3s ease;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform .35s cubic-bezier(.16,1,.3,1);
   }
-  nav ul a:hover::after { width: 100%; }
+  nav ul a:hover::after { transform: scaleX(1); transform-origin: left; }
   nav .theme-toggle {
     background: var(--surface);
     border: 1px solid var(--border);
     color: var(--text);
-    width: 38px; height: 38px;
-    border-radius: 10px;
-    cursor: pointer;
+    width: 40px; height: 40px;
+    border-radius: 12px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 1rem;
-    transition: all .2s;
+    font-size: 1.1rem;
+    transition: all .3s;
   }
   nav .theme-toggle:hover {
     border-color: var(--accent);
-    transform: rotate(20deg);
+    transform: rotate(20deg) scale(1.05);
   }
 
-  /* ─── Container ──────────────────────────────────────────────────── */
+  /* ============================================================
+     CONTAINER
+     ============================================================ */
   .container {
-    max-width: 1200px;
+    max-width: 1240px;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0 2.5rem;
   }
 
-  /* ─── Hero ───────────────────────────────────────────────────────── */
+  /* ============================================================
+     HERO
+     ============================================================ */
   .hero {
     min-height: 100vh;
     display: flex; flex-direction: column;
     justify-content: center;
-    padding: 6rem 2rem 2rem;
+    padding: 7rem 2.5rem 5rem;
     position: relative;
   }
-  .hero-content { max-width: 900px; }
-  .hero .greeting {
-    color: var(--accent);
+  .hero-content { max-width: 1100px; position: relative; z-index: 2; }
+
+  .hero-tag {
     font-family: 'JetBrains Mono', monospace;
-    font-size: .95rem;
-    margin-bottom: 1rem;
+    font-size: .9rem;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: inline-flex; align-items: center; gap: .75rem;
+    padding: .35rem .85rem;
+    border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--border));
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
     opacity: 0;
-    animation: fadeUp .8s .2s forwards;
+    animation: fadeIn 1s 1.4s forwards;
   }
+  .hero-tag .pulse {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--accent);
+    animation: pulse 1.8s infinite;
+  }
+
   .hero h1 {
-    font-size: clamp(2.5rem, 7vw, 5.5rem);
-    line-height: 1.05;
-    letter-spacing: -0.04em;
-    font-weight: 800;
-    margin-bottom: 1rem;
-    opacity: 0;
-    animation: fadeUp .8s .4s forwards;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(3rem, 11vw, 9rem);
+    line-height: .95;
+    letter-spacing: -0.05em;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
   }
+  .hero h1 .line {
+    display: block;
+    overflow: hidden;
+  }
+  .hero h1 .line span {
+    display: inline-block;
+    transform: translateY(110%);
+    animation: heroRise 1s cubic-bezier(.16,1,.3,1) forwards;
+  }
+  .hero h1 .line:nth-child(1) span { animation-delay: 1.5s; }
+  .hero h1 .line:nth-child(2) span { animation-delay: 1.65s; }
   .hero h1 .gradient {
-    background: linear-gradient(135deg, var(--grad-1) 0%, var(--grad-2) 60%, var(--grad-3) 100%);
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 50%, var(--accent-3) 100%);
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
     background-size: 200% 200%;
-    animation: gradient-shift 6s ease infinite;
+    animation: heroRise 1s cubic-bezier(.16,1,.3,1) 1.65s forwards,
+               gradientShift 8s ease infinite 2.6s;
   }
-  @keyframes gradient-shift {
+  @keyframes heroRise { to { transform: translateY(0); } }
+  @keyframes gradientShift {
     0%, 100% { background-position: 0% 50%; }
     50%      { background-position: 100% 50%; }
   }
-  .hero h2 {
-    font-size: clamp(1.5rem, 4vw, 2.5rem);
+
+  .hero-sub {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.4rem, 3.6vw, 2.2rem);
     color: var(--text-dim);
     font-weight: 500;
     letter-spacing: -0.02em;
-    margin-bottom: 2rem;
+    margin: 1.5rem 0 2rem;
     opacity: 0;
-    animation: fadeUp .8s .6s forwards;
+    animation: fadeIn 1s 2s forwards;
     min-height: 3rem;
   }
-  .hero h2 #role {
+  .hero-sub #role {
     color: var(--text);
     font-weight: 700;
     border-right: 2px solid var(--accent);
-    padding-right: 4px;
+    padding-right: 6px;
     animation: blink 1s step-end infinite;
   }
   @keyframes blink { 50% { border-color: transparent; } }
-  .hero .pitch {
+
+  .hero-pitch {
     font-size: 1.15rem;
     color: var(--text-dim);
-    max-width: 720px;
-    margin-bottom: 2.5rem;
+    max-width: 660px;
+    margin-bottom: 2.75rem;
     opacity: 0;
-    animation: fadeUp .8s .8s forwards;
+    animation: fadeIn 1s 2.2s forwards;
   }
-  .hero .pitch strong { color: var(--text); font-weight: 600; }
+  .hero-pitch strong { color: var(--text); font-weight: 600; }
 
-  .cta-row {
+  .hero-cta {
     display: flex; flex-wrap: wrap; gap: 1rem;
     opacity: 0;
-    animation: fadeUp .8s 1s forwards;
+    animation: fadeIn 1s 2.4s forwards;
   }
-  .cta {
-    padding: .85rem 1.6rem;
-    border-radius: 12px;
+
+  /* Magnetic buttons */
+  .magnet {
+    padding: 1rem 1.85rem;
+    border-radius: 14px;
     font-weight: 600;
-    font-size: .95rem;
+    font-size: .98rem;
     text-decoration: none;
     display: inline-flex; align-items: center; gap: .5rem;
-    transition: all .25s ease;
+    transition: transform .3s ease, box-shadow .3s ease, background .3s ease;
     border: 1px solid transparent;
+    position: relative;
+    will-change: transform;
+    font-family: 'Space Grotesk', sans-serif;
   }
-  .cta-primary {
+  .magnet .arrow {
+    transition: transform .35s cubic-bezier(.16,1,.3,1);
+  }
+  .magnet:hover .arrow {
+    transform: translateX(6px);
+  }
+  .magnet-primary {
     background: linear-gradient(135deg, var(--accent), var(--accent-2));
     color: var(--bg);
+    box-shadow: 0 10px 30px -8px var(--accent-glow);
   }
-  .cta-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 30px var(--accent-glow);
+  .magnet-primary:hover {
+    box-shadow: 0 20px 50px -8px var(--accent-glow);
   }
-  .cta-ghost {
-    background: var(--surface);
+  .magnet-ghost {
+    background: color-mix(in srgb, var(--surface) 70%, transparent);
     color: var(--text);
     border-color: var(--border);
+    backdrop-filter: blur(8px);
   }
-  .cta-ghost:hover {
+  .magnet-ghost:hover {
     border-color: var(--accent);
-    transform: translateY(-2px);
+    background: var(--surface);
   }
 
-  .scroll-hint {
+  .hero-scroll {
     position: absolute;
-    bottom: 2rem; left: 50%;
+    bottom: 2.5rem; left: 50%;
     transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .78rem;
     color: var(--text-mute);
-    font-size: .85rem;
-    animation: float 2.5s ease-in-out infinite;
+    opacity: 0;
+    animation: fadeIn 1s 2.8s forwards;
     text-align: center;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
   }
-  @keyframes float {
-    0%, 100% { transform: translateX(-50%) translateY(0); opacity: .7; }
-    50%      { transform: translateX(-50%) translateY(8px); opacity: 1; }
+  .hero-scroll .line-down {
+    display: block;
+    width: 1px; height: 50px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    margin: .85rem auto 0;
+    animation: scrollLine 2s ease-in-out infinite;
   }
-  .scroll-hint .arrow { display: block; font-size: 1.4rem; margin-top: .25rem; }
+  @keyframes scrollLine {
+    0%   { transform: scaleY(0); transform-origin: top; }
+    50%  { transform: scaleY(1); transform-origin: top; }
+    51%  { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  /* ─── Section base ──────────────────────────────────────────────── */
+  /* ============================================================
+     SECTION HEADERS
+     ============================================================ */
   section {
-    padding: 7rem 0;
+    padding: 9rem 0;
     position: relative;
   }
-  .section-label {
-    color: var(--accent);
+  .section-num {
     font-family: 'JetBrains Mono', monospace;
     font-size: .9rem;
-    margin-bottom: .5rem;
+    color: var(--accent);
+    margin-bottom: .65rem;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.18em;
+    display: flex; align-items: center; gap: .75rem;
+  }
+  .section-num::before {
+    content: '';
+    width: 32px; height: 1px;
+    background: var(--accent);
   }
   .section-title {
-    font-size: clamp(2rem, 4.5vw, 3rem);
-    letter-spacing: -0.03em;
-    font-weight: 800;
-    margin-bottom: 3rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    letter-spacing: -0.04em;
+    font-weight: 700;
+    line-height: 1.05;
+    margin-bottom: 4rem;
+    overflow: hidden;
   }
+  .section-title .word {
+    display: inline-block;
+    transform: translateY(110%);
+    opacity: 0;
+    transition: transform 1s cubic-bezier(.16,1,.3,1), opacity 1s;
+  }
+  .section-title.in .word { transform: translateY(0); opacity: 1; }
+  .section-title .word:nth-child(2) { transition-delay: .08s; }
+  .section-title .word:nth-child(3) { transition-delay: .16s; }
+  .section-title .word:nth-child(4) { transition-delay: .24s; }
+  .section-title .word:nth-child(5) { transition-delay: .32s; }
+
   .reveal {
     opacity: 0;
-    transform: translateY(30px);
-    transition: all .8s cubic-bezier(.16,1,.3,1);
+    transform: translateY(40px);
+    transition: opacity 1s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1);
   }
-  .reveal.in {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  .reveal.delay-1 { transition-delay: .1s; }
+  .reveal.delay-2 { transition-delay: .2s; }
+  .reveal.delay-3 { transition-delay: .3s; }
 
-  /* ─── About ─────────────────────────────────────────────────────── */
+  /* ============================================================
+     ABOUT
+     ============================================================ */
   .about-grid {
     display: grid;
-    grid-template-columns: 1.4fr 1fr;
-    gap: 4rem;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 5rem;
     align-items: start;
   }
   .about-text p {
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     color: var(--text-dim);
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
   }
-  .about-text strong { color: var(--text); }
+  .about-text strong { color: var(--text); font-weight: 600; }
+  .about-text .highlight {
+    color: var(--accent);
+    font-weight: 600;
+  }
   .about-stats {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    gap: 1.25rem;
   }
   .stat {
-    background: var(--surface);
+    background: color-mix(in srgb, var(--surface) 60%, transparent);
     border: 1px solid var(--border);
-    padding: 1.5rem;
-    border-radius: 14px;
-    transition: all .3s;
+    padding: 1.75rem 1.5rem;
+    border-radius: 18px;
+    transition: all .5s cubic-bezier(.16,1,.3,1);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
   }
+  .stat::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: conic-gradient(from 0deg, transparent, var(--accent), transparent 30%);
+    opacity: 0;
+    animation: rotate 4s linear infinite;
+    transition: opacity .5s;
+  }
+  .stat::after {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    background: var(--surface);
+    border-radius: 17px;
+    z-index: 1;
+  }
+  .stat > * { position: relative; z-index: 2; }
   .stat:hover {
-    border-color: var(--accent);
-    transform: translateY(-3px);
+    transform: translateY(-6px);
   }
+  .stat:hover::before { opacity: 1; }
+  @keyframes rotate { to { transform: rotate(360deg); } }
   .stat .num {
-    font-size: 2.2rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, var(--grad-1), var(--grad-2));
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
     letter-spacing: -0.03em;
+    line-height: 1;
   }
   .stat .label {
     color: var(--text-dim);
-    font-size: .9rem;
-    margin-top: .25rem;
+    font-size: .92rem;
+    margin-top: .5rem;
   }
 
-  /* ─── Skills ────────────────────────────────────────────────────── */
+  /* ============================================================
+     MARQUEE SKILLS
+     ============================================================ */
+  .marquee-wrap {
+    position: relative;
+    overflow: hidden;
+    padding: 1rem 0;
+    margin-bottom: 4rem;
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  }
+  .marquee {
+    display: flex;
+    width: max-content;
+    animation: marquee 50s linear infinite;
+    gap: 1rem;
+  }
+  .marquee:hover { animation-play-state: paused; }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .marquee .chip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: .65rem 1.2rem;
+    border-radius: 999px;
+    font-size: .92rem;
+    font-weight: 500;
+    white-space: nowrap;
+    font-family: 'JetBrains Mono', monospace;
+    transition: all .25s;
+  }
+  .marquee .chip:hover {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+    transform: scale(1.05);
+  }
+
   .skills-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
     gap: 1.5rem;
   }
   .skill-cat {
-    background: var(--surface);
+    background: color-mix(in srgb, var(--surface) 80%, transparent);
     border: 1px solid var(--border);
-    padding: 1.75rem;
-    border-radius: 16px;
-    transition: all .3s;
+    padding: 1.85rem;
+    border-radius: 18px;
+    backdrop-filter: blur(10px);
+    transition: all .5s cubic-bezier(.16,1,.3,1);
     position: relative;
     overflow: hidden;
   }
   .skill-cat::before {
     content: '';
     position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 2px;
-    background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    transform: translateX(-100%);
-    transition: transform .6s ease;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 15%, transparent), transparent);
+    transition: left .8s ease;
   }
   .skill-cat:hover {
-    border-color: color-mix(in srgb, var(--accent) 60%, var(--border));
-    transform: translateY(-3px);
+    border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
+    transform: translateY(-5px);
     box-shadow: var(--shadow);
   }
-  .skill-cat:hover::before { transform: translateX(100%); }
+  .skill-cat:hover::before { left: 100%; }
   .skill-cat h3 {
-    font-size: 1rem;
-    letter-spacing: .05em;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .85rem;
+    letter-spacing: .12em;
     text-transform: uppercase;
     color: var(--accent);
-    margin-bottom: 1rem;
-    display: flex; align-items: center; gap: .5rem;
+    margin-bottom: 1.1rem;
+    display: flex; align-items: center; gap: .65rem;
   }
-  .skill-cat h3 .icon { font-size: 1.3rem; }
-  .chip-list {
-    display: flex; flex-wrap: wrap; gap: .5rem;
+  .skill-cat h3 .icon { font-size: 1.4rem; }
+  .skill-cat .chip-list {
+    display: flex; flex-wrap: wrap; gap: .45rem;
   }
-  .chip {
+  .skill-cat .chip {
     background: var(--surface-2);
     color: var(--text);
     padding: .35rem .8rem;
@@ -388,373 +704,536 @@
     font-size: .82rem;
     font-weight: 500;
     border: 1px solid var(--border);
-    transition: all .2s;
-    cursor: default;
+    transition: all .25s;
   }
-  .chip:hover {
+  .skill-cat .chip:hover {
     background: var(--accent);
     color: var(--bg);
     border-color: var(--accent);
-    transform: scale(1.05);
+    transform: translateY(-2px) scale(1.05);
   }
 
-  /* ─── Projects ──────────────────────────────────────────────────── */
+  /* ============================================================
+     PROJECTS
+     ============================================================ */
   .filter-row {
     display: flex; flex-wrap: wrap;
     gap: .5rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: 3rem;
   }
   .filter-btn {
-    background: var(--surface);
+    background: color-mix(in srgb, var(--surface) 70%, transparent);
     color: var(--text-dim);
     border: 1px solid var(--border);
-    padding: .55rem 1.1rem;
+    padding: .65rem 1.25rem;
     border-radius: 999px;
-    font-size: .85rem;
+    font-size: .88rem;
     font-weight: 500;
-    cursor: pointer;
-    transition: all .25s;
-    font-family: inherit;
+    transition: all .3s cubic-bezier(.16,1,.3,1);
+    font-family: 'Space Grotesk', sans-serif;
+    backdrop-filter: blur(10px);
   }
-  .filter-btn:hover { color: var(--text); border-color: var(--accent); }
-  .filter-btn.active {
-    background: var(--accent);
-    color: var(--bg);
+  .filter-btn:hover {
+    color: var(--text);
     border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .filter-btn.active {
+    background: var(--text);
+    color: var(--bg);
+    border-color: var(--text);
   }
 
   .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
     gap: 1.5rem;
   }
   .project-card {
-    background: var(--surface);
+    background: color-mix(in srgb, var(--surface) 75%, transparent);
     border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 1.75rem;
-    display: flex; flex-direction: column;
+    border-radius: 22px;
+    padding: 2rem 1.85rem;
     text-decoration: none;
     color: inherit;
     position: relative;
     overflow: hidden;
-    transition: all .35s cubic-bezier(.16,1,.3,1);
+    transition: all .6s cubic-bezier(.16,1,.3,1);
     transform-style: preserve-3d;
+    backdrop-filter: blur(12px);
+    display: flex; flex-direction: column;
+    min-height: 280px;
   }
   .project-card::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, var(--accent-glow), transparent 50%);
+    background: radial-gradient(
+      400px circle at var(--cx, 50%) var(--cy, 50%),
+      color-mix(in srgb, var(--accent) 12%, transparent),
+      transparent 50%
+    );
     opacity: 0;
-    transition: opacity .35s;
+    transition: opacity .4s;
     pointer-events: none;
   }
   .project-card:hover {
-    transform: translateY(-6px);
-    border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
+    transform: translateY(-8px);
+    border-color: color-mix(in srgb, var(--accent) 60%, var(--border));
     box-shadow: var(--shadow);
   }
   .project-card:hover::before { opacity: 1; }
   .project-card.hidden { display: none; }
 
-  .project-head {
-    display: flex; justify-content: space-between; align-items: start;
-    margin-bottom: 1rem;
-  }
   .project-emoji {
-    font-size: 1.8rem;
-    margin-bottom: .25rem;
+    font-size: 2.4rem;
+    margin-bottom: 1rem;
+    display: inline-block;
+    transition: transform .4s cubic-bezier(.16,1,.3,1);
   }
-  .project-link {
-    color: var(--text-mute);
-    font-size: 1.2rem;
-    transition: all .2s;
+  .project-card:hover .project-emoji {
+    transform: scale(1.15) rotate(-8deg);
   }
-  .project-card:hover .project-link { color: var(--accent); transform: translate(2px, -2px); }
   .project-card h3 {
-    font-size: 1.2rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.4rem;
     font-weight: 700;
-    margin-bottom: .5rem;
-    letter-spacing: -0.01em;
+    margin-bottom: .65rem;
+    letter-spacing: -0.02em;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .project-card h3 .link-arrow {
+    color: var(--text-mute);
+    font-size: 1rem;
+    transition: all .3s;
+  }
+  .project-card:hover h3 .link-arrow {
+    color: var(--accent);
+    transform: translate(3px, -3px);
   }
   .project-card p {
     color: var(--text-dim);
-    font-size: .92rem;
+    font-size: .95rem;
     flex: 1;
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
   }
   .project-tags {
     display: flex; flex-wrap: wrap; gap: .35rem;
-    margin-top: auto;
   }
   .project-tag {
     background: var(--surface-2);
     color: var(--text-dim);
-    padding: .2rem .6rem;
+    padding: .25rem .65rem;
     border-radius: 6px;
     font-size: .72rem;
     font-weight: 500;
     font-family: 'JetBrains Mono', monospace;
   }
 
-  /* ─── Experience ─────────────────────────────────────────────────── */
+  /* ============================================================
+     EXPERIENCE TIMELINE
+     ============================================================ */
   .timeline {
     position: relative;
-    padding-left: 2rem;
+    padding-left: 2.5rem;
   }
   .timeline::before {
     content: '';
     position: absolute;
-    left: 7px; top: 0; bottom: 0;
-    width: 2px;
-    background: linear-gradient(to bottom, var(--accent), transparent);
+    left: 8px; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom,
+      transparent,
+      var(--accent),
+      var(--accent-2),
+      transparent);
   }
   .timeline-item {
     position: relative;
-    padding-bottom: 3rem;
+    padding-bottom: 4rem;
   }
   .timeline-item::before {
     content: '';
     position: absolute;
-    left: -2rem;
-    top: .5rem;
-    width: 16px; height: 16px;
+    left: -2.5rem;
+    top: .6rem;
+    width: 18px; height: 18px;
     background: var(--bg);
     border: 2px solid var(--accent);
     border-radius: 50%;
-    box-shadow: 0 0 0 4px var(--bg-2);
+    box-shadow: 0 0 0 5px var(--bg), 0 0 16px var(--accent);
+    transition: all .3s;
+  }
+  .timeline-item:hover::before {
+    transform: scale(1.2);
+    background: var(--accent);
   }
   .timeline-item h3 {
-    font-size: 1.25rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.5rem;
     font-weight: 700;
-    margin-bottom: .25rem;
+    margin-bottom: .35rem;
+    letter-spacing: -0.02em;
   }
   .timeline-item .role {
     color: var(--accent);
-    font-size: .95rem;
+    font-size: 1rem;
     font-weight: 500;
-    margin-bottom: .25rem;
+    margin-bottom: .35rem;
   }
   .timeline-item .meta {
     color: var(--text-mute);
     font-family: 'JetBrains Mono', monospace;
     font-size: .85rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
   }
   .timeline-item ul {
     list-style: none;
   }
   .timeline-item li {
     color: var(--text-dim);
-    padding: .35rem 0 .35rem 1.5rem;
+    padding: .45rem 0 .45rem 1.85rem;
     position: relative;
+    font-size: 1rem;
+    transition: color .25s;
   }
+  .timeline-item li:hover { color: var(--text); }
   .timeline-item li::before {
-    content: '▸';
+    content: '';
     position: absolute;
-    left: 0;
+    left: 0; top: 1.15rem;
+    width: 14px; height: 1px;
+    background: var(--accent);
+  }
+  .timeline-item li strong {
     color: var(--accent);
+    font-weight: 600;
   }
 
-  /* ─── Education ─────────────────────────────────────────────────── */
+  /* ============================================================
+     EDUCATION
+     ============================================================ */
   .edu-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 1.5rem;
   }
   .edu-card {
-    background: var(--surface);
+    background: color-mix(in srgb, var(--surface) 80%, transparent);
     border: 1px solid var(--border);
-    padding: 1.75rem;
-    border-radius: 16px;
-    transition: all .3s;
+    padding: 2rem;
+    border-radius: 18px;
+    backdrop-filter: blur(10px);
+    transition: all .4s cubic-bezier(.16,1,.3,1);
+    position: relative;
+    overflow: hidden;
+  }
+  .edu-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .5s cubic-bezier(.16,1,.3,1);
   }
   .edu-card:hover {
-    border-color: var(--accent);
-    transform: translateY(-3px);
+    transform: translateY(-5px);
+    border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
   }
+  .edu-card:hover::after { transform: scaleX(1); }
   .edu-card .label {
-    color: var(--text-mute);
+    color: var(--accent);
     font-family: 'JetBrains Mono', monospace;
-    font-size: .8rem;
+    font-size: .78rem;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: .5rem;
+    letter-spacing: 0.14em;
+    margin-bottom: .85rem;
   }
   .edu-card h3 {
-    font-size: 1.15rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.2rem;
     font-weight: 600;
     margin-bottom: .35rem;
+    letter-spacing: -0.01em;
   }
   .edu-card .sub {
     color: var(--text-dim);
-    font-size: .92rem;
+    font-size: .95rem;
   }
 
-  /* ─── Contact ────────────────────────────────────────────────────── */
+  /* ============================================================
+     CONTACT
+     ============================================================ */
   .contact {
     text-align: center;
-    padding: 6rem 0;
+    padding: 8rem 0;
+    position: relative;
+  }
+  .contact-eyebrow {
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .9rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
   }
   .contact h2 {
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    letter-spacing: -0.03em;
-    font-weight: 800;
-    margin-bottom: 1rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(3rem, 8vw, 6rem);
+    letter-spacing: -0.05em;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1;
+  }
+  .contact h2 .gradient {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2), var(--accent-3));
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    background-size: 200% 200%;
+    animation: gradientShift 8s ease infinite;
   }
   .contact p {
     color: var(--text-dim);
-    font-size: 1.1rem;
-    max-width: 540px;
-    margin: 0 auto 2.5rem;
+    font-size: 1.15rem;
+    max-width: 560px;
+    margin: 0 auto 3rem;
   }
-  .contact-cta {
-    display: inline-flex; align-items: center; gap: .75rem;
+  .contact-mail {
+    display: inline-flex; align-items: center; gap: 1rem;
+    color: var(--text);
+    text-decoration: none;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    font-weight: 600;
+    padding: 1.25rem 2.5rem;
+    border-radius: 999px;
     background: linear-gradient(135deg, var(--accent), var(--accent-2));
     color: var(--bg);
-    padding: 1.1rem 2.25rem;
-    border-radius: 14px;
-    font-weight: 700;
-    font-size: 1.05rem;
-    text-decoration: none;
-    transition: all .25s;
+    transition: all .4s cubic-bezier(.16,1,.3,1);
+    box-shadow: 0 15px 40px -8px var(--accent-glow);
   }
-  .contact-cta:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 16px 40px var(--accent-glow);
+  .contact-mail:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 25px 60px -8px var(--accent-glow);
   }
+  .contact-mail .arrow {
+    transition: transform .35s cubic-bezier(.16,1,.3,1);
+  }
+  .contact-mail:hover .arrow { transform: translateX(6px); }
 
-  /* ─── Footer ─────────────────────────────────────────────────────── */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 2rem;
-    text-align: center;
-    color: var(--text-mute);
-    font-size: .88rem;
+  .contact-socials {
+    margin-top: 3rem;
+    display: flex; gap: 1.5rem; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .9rem;
   }
-  footer a {
+  .contact-socials a {
     color: var(--text-dim);
     text-decoration: none;
-    margin: 0 .5rem;
-    transition: color .2s;
+    transition: color .25s;
   }
-  footer a:hover { color: var(--accent); }
+  .contact-socials a:hover { color: var(--accent); }
 
-  /* ─── Mobile ─────────────────────────────────────────────────────── */
-  @media (max-width: 720px) {
-    nav { padding: .85rem 1rem; }
+  /* ============================================================
+     FOOTER
+     ============================================================ */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2.5rem;
+    text-align: center;
+    color: var(--text-mute);
+    font-size: .85rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  footer .ascii {
+    color: var(--text-mute);
+    opacity: .4;
+    font-size: .7rem;
+    margin-top: .75rem;
+  }
+
+  /* ============================================================
+     MOBILE
+     ============================================================ */
+  @media (max-width: 900px) {
+    nav { padding: .9rem 1.25rem; }
     nav ul { display: none; }
-    .container { padding: 0 1.25rem; }
-    .hero { padding: 5rem 1.25rem 2rem; }
+    .container { padding: 0 1.5rem; }
+    .hero { padding: 6rem 1.5rem 4rem; }
+    .hero-cta { flex-direction: column; }
+    .magnet { width: 100%; justify-content: center; }
     .about-grid { grid-template-columns: 1fr; gap: 2rem; }
-    section { padding: 4.5rem 0; }
-    .timeline { padding-left: 1.75rem; }
-    .timeline-item::before { left: -1.75rem; }
+    section { padding: 5.5rem 0; }
+    .timeline { padding-left: 2rem; }
+    .timeline-item::before { left: -2rem; }
   }
 
-  /* Respect prefers-reduced-motion */
+  /* ============================================================
+     ACCESSIBILITY
+     ============================================================ */
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-    .reveal { opacity: 1; transform: none; }
+    *, *::before, *::after {
+      animation-duration: .01ms !important;
+      transition-duration: .01ms !important;
+    }
+    .reveal, .section-title .word { opacity: 1; transform: none; }
+    .hero h1 .line span { transform: none; }
+    .loader-name span { transform: none; }
+    .marquee { animation: none; }
   }
 </style>
 </head>
 <body>
 
-<canvas id="bg-canvas"></canvas>
-<div class="bg-gradient"></div>
-
-<nav>
-  <div class="brand">
-    <span class="dot"></span>
-    Mohith&nbsp;V
+<!-- ====================== LOADER ====================== -->
+<div id="loader">
+  <div class="loader-name">
+    <span>M</span><span>o</span><span>h</span><span>i</span><span>t</span><span>h</span><span>&nbsp;</span><span>V</span>
   </div>
+  <div class="loader-bar"></div>
+</div>
+
+<!-- ====================== CUSTOM CURSOR ====================== -->
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+
+<!-- ====================== BACKGROUND ====================== -->
+<canvas id="bg-canvas"></canvas>
+<div class="bg-orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+<div class="grid-overlay"></div>
+<div class="mouse-spotlight"></div>
+
+<!-- ====================== NAV ====================== -->
+<nav id="nav">
+  <a class="brand" href="#top">
+    <span class="dot"></span>
+    Mohith V.
+  </a>
   <ul>
-    <li><a href="#about">About</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#about"><span class="num">01.</span>About</a></li>
+    <li><a href="#skills"><span class="num">02.</span>Skills</a></li>
+    <li><a href="#work"><span class="num">03.</span>Work</a></li>
+    <li><a href="#experience"><span class="num">04.</span>Experience</a></li>
+    <li><a href="#contact"><span class="num">05.</span>Contact</a></li>
   </ul>
   <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">🌙</button>
 </nav>
 
-<!-- ─── Hero ────────────────────────────────────────────────────────── -->
+<!-- ====================== HERO ====================== -->
 <section class="hero" id="top">
   <div class="container hero-content">
-    <div class="greeting">// Hi there, my name is</div>
-    <h1>Mohith&nbsp;V<span class="gradient">.</span></h1>
-    <h2>I build <span id="role">backend systems</span></h2>
-    <p class="pitch">
-      <strong>5 years</strong> of engineering experience across <strong>distributed systems</strong>,
-      <strong>low-latency C++</strong>, <strong>event-driven backends</strong>, and
-      <strong>cloud-native platform security</strong>. Currently shipping at
-      <strong>Wells Fargo</strong> &middot; previously <strong>IKEA</strong>.
-      Comfortable from kernel epoll up to Kubernetes admission policies.
+    <div class="hero-tag">
+      <span class="pulse"></span>
+      Available for new opportunities
+    </div>
+    <h1>
+      <span class="line"><span>Mohith V.</span></span>
+      <span class="line"><span class="gradient">Software Engineer.</span></span>
+    </h1>
+    <div class="hero-sub">
+      I build <span id="role">backend systems</span>
+    </div>
+    <p class="hero-pitch">
+      Five years of engineering across <strong>distributed systems</strong>,
+      <strong>low latency C++</strong>, <strong>event driven backends</strong>, and
+      <strong>cloud native platform security</strong>. Currently shipping at
+      <strong>Wells Fargo</strong>, previously at <strong>IKEA</strong>. Comfortable from kernel epoll
+      up to Kubernetes admission policies.
     </p>
-    <div class="cta-row">
-      <a href="#projects" class="cta cta-primary">View Projects →</a>
-      <a href="https://github.com/mohidev-tech" target="_blank" rel="noopener" class="cta cta-ghost">GitHub ↗</a>
-      <a href="mailto:vmohith0712@gmail.com" class="cta cta-ghost">Email ✉</a>
+    <div class="hero-cta">
+      <a href="#work" class="magnet magnet-primary">
+        View My Work <span class="arrow">→</span>
+      </a>
+      <a href="https://github.com/mohidev-tech" target="_blank" rel="noopener" class="magnet magnet-ghost">
+        GitHub <span class="arrow">↗</span>
+      </a>
+      <a href="mailto:vmohith0712@gmail.com" class="magnet magnet-ghost">
+        Email <span class="arrow">✉</span>
+      </a>
     </div>
   </div>
-  <div class="scroll-hint">
-    scroll
-    <span class="arrow">↓</span>
+  <div class="hero-scroll">
+    Scroll
+    <span class="line-down"></span>
   </div>
 </section>
 
-<!-- ─── About ─────────────────────────────────────────────────────── -->
+<!-- ====================== ABOUT ====================== -->
 <section id="about">
   <div class="container">
-    <div class="reveal">
-      <div class="section-label">// 01 — about</div>
-      <h2 class="section-title">A short version</h2>
-    </div>
+    <div class="section-num reveal">About</div>
+    <h2 class="section-title"><span class="word">A</span> <span class="word">short</span> <span class="word">version.</span></h2>
     <div class="about-grid">
       <div class="about-text reveal">
         <p>
-          I'm a software engineer who likes the parts of the stack other engineers find scary —
-          <strong>concurrency, distributed coordination, low-latency network code, and the boring
-          plumbing that keeps production-grade systems running</strong>.
+          I am a software engineer who likes the parts of the stack other engineers find scary.
+          <span class="highlight">Concurrency, distributed coordination, low latency network code, and the boring
+          plumbing that keeps production grade systems running.</span>
         </p>
         <p>
-          At <strong>Wells Fargo</strong> I build real-time risk and payments platforms — fault-tolerant
-          backends that ingest <strong>5,000 events/sec at 99.95% uptime</strong>, Kafka pipelines
-          feeding 20 downstream consumers, and Kubernetes microservices with full observability.
-          I cut p99 latency from 180ms to 140ms and trimmed compute spend by 22% by right-sizing
+          At <strong>Wells Fargo</strong> I build real time risk and payments platforms. Fault tolerant
+          backends that ingest 5,000 events per second at 99.95% uptime. Kafka pipelines
+          feeding 20 downstream consumers. Kubernetes microservices with full observability.
+          I cut p99 latency from 180ms to 140ms and trimmed compute spend by 22% by right sizing
           and JVM profiling.
         </p>
         <p>
           At <strong>IKEA</strong> I migrated 8 batch jobs from monolith to containerized microservices,
-          built large-scale Kafka inventory pipelines, and shaved p99 reads to sub-10ms with cache-aside
+          built large scale Kafka inventory pipelines, and shaved p99 reads to sub 10ms with cache aside
           patterns.
         </p>
         <p>
-          On the side I ship a portfolio of <strong>11 open-source repos</strong> covering DevSecOps
-          (Kubernetes + Vault + Sigstore + Falco), distributed Java (Kafka, SAGA orchestration,
-          Spring Cloud Gateway, a Redis clone in Netty), and IaC security tooling.
-          Every claim in those READMEs has a verify script that proves it.
+          On the side I ship a portfolio of <strong>11 open source repositories</strong> covering DevSecOps,
+          distributed Java, and IaC security tooling. Every claim in those READMEs has a verify
+          script that proves it.
         </p>
       </div>
-      <div class="about-stats reveal">
-        <div class="stat"><div class="num">5</div><div class="label">years engineering</div></div>
-        <div class="stat"><div class="num">11</div><div class="label">open-source repos</div></div>
-        <div class="stat"><div class="num">99.95%</div><div class="label">uptime in prod</div></div>
-        <div class="stat"><div class="num">500K</div><div class="label">events/sec sustained</div></div>
+      <div class="about-stats reveal delay-2">
+        <div class="stat"><div class="num" data-target="5">0</div><div class="label">years engineering</div></div>
+        <div class="stat"><div class="num" data-target="11">0</div><div class="label">open source repos</div></div>
+        <div class="stat"><div class="num" data-target="99.95" data-suffix="%">0</div><div class="label">uptime in production</div></div>
+        <div class="stat"><div class="num" data-target="500" data-suffix="K">0</div><div class="label">events per second</div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ─── Skills ────────────────────────────────────────────────────── -->
+<!-- ====================== SKILLS ====================== -->
 <section id="skills">
   <div class="container">
-    <div class="reveal">
-      <div class="section-label">// 02 — skills</div>
-      <h2 class="section-title">What I work with</h2>
+    <div class="section-num reveal">Skills</div>
+    <h2 class="section-title"><span class="word">What</span> <span class="word">I</span> <span class="word">work</span> <span class="word">with.</span></h2>
+  </div>
+
+  <!-- Marquee technology ticker -->
+  <div class="marquee-wrap reveal">
+    <div class="marquee">
+      <span class="chip">Java</span><span class="chip">Spring Boot 3</span><span class="chip">Kafka</span>
+      <span class="chip">Kubernetes</span><span class="chip">PostgreSQL</span><span class="chip">Redis</span>
+      <span class="chip">Python</span><span class="chip">Go</span><span class="chip">C++ 17/20</span>
+      <span class="chip">gRPC</span><span class="chip">Netty</span><span class="chip">AWS</span>
+      <span class="chip">Terraform</span><span class="chip">Prometheus</span><span class="chip">Grafana</span>
+      <span class="chip">OpenTelemetry</span><span class="chip">Argo CD</span><span class="chip">Vault</span>
+      <span class="chip">Sigstore</span><span class="chip">Istio</span><span class="chip">Falco</span>
+      <!-- duplicate for seamless loop -->
+      <span class="chip">Java</span><span class="chip">Spring Boot 3</span><span class="chip">Kafka</span>
+      <span class="chip">Kubernetes</span><span class="chip">PostgreSQL</span><span class="chip">Redis</span>
+      <span class="chip">Python</span><span class="chip">Go</span><span class="chip">C++ 17/20</span>
+      <span class="chip">gRPC</span><span class="chip">Netty</span><span class="chip">AWS</span>
+      <span class="chip">Terraform</span><span class="chip">Prometheus</span><span class="chip">Grafana</span>
+      <span class="chip">OpenTelemetry</span><span class="chip">Argo CD</span><span class="chip">Vault</span>
+      <span class="chip">Sigstore</span><span class="chip">Istio</span><span class="chip">Falco</span>
     </div>
+  </div>
+
+  <div class="container">
     <div class="skills-grid">
       <div class="skill-cat reveal">
         <h3><span class="icon">💻</span>Languages</h3>
@@ -765,44 +1244,44 @@
           <span class="chip">Bash</span>
         </div>
       </div>
-      <div class="skill-cat reveal">
+      <div class="skill-cat reveal delay-1">
         <h3><span class="icon">🧩</span>Backend Frameworks</h3>
         <div class="chip-list">
           <span class="chip">Spring Boot 3</span><span class="chip">Spring Cloud Gateway</span>
           <span class="chip">Netty</span><span class="chip">gRPC</span>
-          <span class="chip">REST</span><span class="chip">STOMP / WebSocket</span>
-          <span class="chip">JPA/Hibernate</span>
+          <span class="chip">REST</span><span class="chip">STOMP WebSocket</span>
+          <span class="chip">JPA Hibernate</span>
         </div>
       </div>
-      <div class="skill-cat reveal">
+      <div class="skill-cat reveal delay-2">
         <h3><span class="icon">📡</span>Distributed Systems</h3>
         <div class="chip-list">
           <span class="chip">Kafka</span><span class="chip">Kafka Streams</span>
-          <span class="chip">SAGA Orchestration</span><span class="chip">Event-Driven</span>
+          <span class="chip">SAGA Orchestration</span><span class="chip">Event Driven</span>
           <span class="chip">Circuit Breaker</span><span class="chip">CQRS</span>
           <span class="chip">RabbitMQ</span>
         </div>
       </div>
       <div class="skill-cat reveal">
-        <h3><span class="icon">⚡</span>Low-Latency / Systems</h3>
+        <h3><span class="icon">⚡</span>Low Latency Systems</h3>
         <div class="chip-list">
-          <span class="chip">Lock-Free Queues</span><span class="chip">Template Metaprogramming</span>
+          <span class="chip">Lock Free Queues</span><span class="chip">Template Metaprogramming</span>
           <span class="chip">Coroutines</span><span class="chip">Async I/O</span>
           <span class="chip">epoll</span><span class="chip">RAII</span>
           <span class="chip">Profiling</span><span class="chip">Valgrind</span>
         </div>
       </div>
-      <div class="skill-cat reveal">
-        <h3><span class="icon">☸️</span>Cloud &amp; Containers</h3>
+      <div class="skill-cat reveal delay-1">
+        <h3><span class="icon">☸️</span>Cloud and Containers</h3>
         <div class="chip-list">
           <span class="chip">Kubernetes</span><span class="chip">Docker</span>
           <span class="chip">Helm</span><span class="chip">AWS EKS</span>
-          <span class="chip">AWS (EC2, S3, SQS, Lambda, RDS)</span>
-          <span class="chip">Terraform</span><span class="chip">Argo CD</span>
+          <span class="chip">AWS</span><span class="chip">Terraform</span>
+          <span class="chip">Argo CD</span>
         </div>
       </div>
-      <div class="skill-cat reveal">
-        <h3><span class="icon">🗄️</span>Databases &amp; Storage</h3>
+      <div class="skill-cat reveal delay-2">
+        <h3><span class="icon">🗄️</span>Databases and Storage</h3>
         <div class="chip-list">
           <span class="chip">PostgreSQL</span><span class="chip">Redis</span>
           <span class="chip">DynamoDB</span><span class="chip">MySQL</span>
@@ -811,51 +1290,47 @@
         </div>
       </div>
       <div class="skill-cat reveal">
-        <h3><span class="icon">📊</span>Observability &amp; CI/CD</h3>
+        <h3><span class="icon">📊</span>Observability and CI/CD</h3>
         <div class="chip-list">
           <span class="chip">Prometheus</span><span class="chip">Grafana</span>
           <span class="chip">OpenTelemetry</span><span class="chip">Distributed Tracing</span>
           <span class="chip">GitHub Actions</span><span class="chip">Jenkins</span>
-          <span class="chip">SLO / Burn-Rate</span>
+          <span class="chip">SLO Burn Rate</span>
         </div>
       </div>
-      <div class="skill-cat reveal">
-        <h3><span class="icon">🔐</span>Security &amp; DevSecOps</h3>
+      <div class="skill-cat reveal delay-1">
+        <h3><span class="icon">🔐</span>Security and DevSecOps</h3>
         <div class="chip-list">
           <span class="chip">Vault</span><span class="chip">Kyverno</span>
-          <span class="chip">OPA / Gatekeeper</span><span class="chip">Sigstore / Cosign</span>
-          <span class="chip">SBOM (Syft)</span><span class="chip">Falco / eBPF</span>
-          <span class="chip">Istio mTLS</span><span class="chip">SOC2 / NIST / CIS</span>
+          <span class="chip">OPA Gatekeeper</span><span class="chip">Sigstore Cosign</span>
+          <span class="chip">SBOM Syft</span><span class="chip">Falco eBPF</span>
+          <span class="chip">Istio mTLS</span><span class="chip">SOC2 NIST CIS</span>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ─── Projects ──────────────────────────────────────────────────── -->
-<section id="projects">
+<!-- ====================== WORK ====================== -->
+<section id="work">
   <div class="container">
-    <div class="reveal">
-      <div class="section-label">// 03 — projects</div>
-      <h2 class="section-title">Featured work</h2>
-    </div>
+    <div class="section-num reveal">Selected Work</div>
+    <h2 class="section-title"><span class="word">Featured</span> <span class="word">projects.</span></h2>
     <div class="filter-row reveal">
       <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="backend">Backend / Java</button>
+      <button class="filter-btn" data-filter="backend">Backend &amp; Java</button>
       <button class="filter-btn" data-filter="distributed">Distributed Systems</button>
-      <button class="filter-btn" data-filter="security">Security / DevSecOps</button>
-      <button class="filter-btn" data-filter="systems">Low-Level / Systems</button>
+      <button class="filter-btn" data-filter="security">Security &amp; DevSecOps</button>
+      <button class="filter-btn" data-filter="systems">Low Level Systems</button>
     </div>
     <div class="projects-grid" id="projects-grid">
 
       <a href="https://github.com/mohidev-tech/devsecops-platform" target="_blank" rel="noopener"
          class="project-card reveal" data-tags="security">
-        <div class="project-head">
-          <span class="project-emoji">🚩</span><span class="project-link">↗</span>
-        </div>
-        <h3>devsecops-platform</h3>
-        <p>GitOps-driven hardened Kubernetes platform: Terraform + Argo CD + Vault + Kyverno + Prometheus.
-           Multi-service app with image scanning, secret injection, autoscaling, 14.4× burn-rate SLO alerts.</p>
+        <span class="project-emoji">🚩</span>
+        <h3>devsecops platform <span class="link-arrow">↗</span></h3>
+        <p>GitOps driven hardened Kubernetes platform. Terraform, Argo CD, Vault, Kyverno, Prometheus.
+           Multi service app with image scanning, secret injection, autoscaling, 14.4x burn rate SLO alerts.</p>
         <div class="project-tags">
           <span class="project-tag">Kubernetes</span>
           <span class="project-tag">Terraform</span>
@@ -865,13 +1340,11 @@
       </a>
 
       <a href="https://github.com/mohidev-tech/order-processing-system" target="_blank" rel="noopener"
-         class="project-card reveal" data-tags="backend distributed">
-        <div class="project-head">
-          <span class="project-emoji">📦</span><span class="project-link">↗</span>
-        </div>
-        <h3>order-processing-system</h3>
+         class="project-card reveal delay-1" data-tags="backend distributed">
+        <span class="project-emoji">📦</span>
+        <h3>order processing system <span class="link-arrow">↗</span></h3>
         <p>SAGA orchestrator across 4 Spring Boot microservices. Durable Postgres state machine,
-           compensation events, optimistic locking, failure-injection knobs.</p>
+           compensation events, optimistic locking, failure injection knobs.</p>
         <div class="project-tags">
           <span class="project-tag">Spring Boot</span>
           <span class="project-tag">SAGA</span>
@@ -881,13 +1354,11 @@
       </a>
 
       <a href="https://github.com/mohidev-tech/kafka-event-processor" target="_blank" rel="noopener"
-         class="project-card reveal" data-tags="backend distributed">
-        <div class="project-head">
-          <span class="project-emoji">📨</span><span class="project-link">↗</span>
-        </div>
-        <h3>kafka-event-processor</h3>
-        <p>Event-driven service with manual ack, optimistic <code>@Version</code> locking,
-           dead-letter topic, and Prometheus counters. 50K events/min with zero loss.</p>
+         class="project-card reveal delay-2" data-tags="backend distributed">
+        <span class="project-emoji">📨</span>
+        <h3>kafka event processor <span class="link-arrow">↗</span></h3>
+        <p>Event driven service with manual ack, optimistic Version locking,
+           dead letter topic, and Prometheus counters. 50K events per minute with zero loss.</p>
         <div class="project-tags">
           <span class="project-tag">Kafka</span>
           <span class="project-tag">Spring Boot</span>
@@ -898,28 +1369,24 @@
 
       <a href="https://github.com/mohidev-tech/redis-clone" target="_blank" rel="noopener"
          class="project-card reveal" data-tags="backend systems">
-        <div class="project-head">
-          <span class="project-emoji">🟥</span><span class="project-link">↗</span>
-        </div>
-        <h3>redis-clone</h3>
-        <p>From-scratch Redis-protocol-compatible K/V server in Java 21 + Netty. Real <code>redis-cli</code>
-           connects. RESP2 codec, LRU/LFU/FIFO eviction, active+passive expiration.</p>
+        <span class="project-emoji">🟥</span>
+        <h3>redis clone <span class="link-arrow">↗</span></h3>
+        <p>From scratch Redis protocol compatible K/V server in Java 21 and Netty. Real redis cli
+           connects. RESP2 codec, LRU LFU FIFO eviction, active and passive expiration.</p>
         <div class="project-tags">
           <span class="project-tag">Netty</span>
           <span class="project-tag">RESP</span>
           <span class="project-tag">Java 21</span>
-          <span class="project-tag">Low-Level</span>
+          <span class="project-tag">Low Level</span>
         </div>
       </a>
 
       <a href="https://github.com/mohidev-tech/api-gateway" target="_blank" rel="noopener"
-         class="project-card reveal" data-tags="backend distributed">
-        <div class="project-head">
-          <span class="project-emoji">🚪</span><span class="project-link">↗</span>
-        </div>
-        <h3>api-gateway</h3>
-        <p>Reactive Spring Cloud Gateway with Redis-backed atomic token-bucket rate limiter (Lua) and
-           a 3-state in-process circuit breaker. Fail-open on Redis outage.</p>
+         class="project-card reveal delay-1" data-tags="backend distributed">
+        <span class="project-emoji">🚪</span>
+        <h3>api gateway <span class="link-arrow">↗</span></h3>
+        <p>Reactive Spring Cloud Gateway with Redis backed atomic token bucket rate limiter (Lua) and
+           a 3 state in process circuit breaker. Fail open on Redis outage.</p>
         <div class="project-tags">
           <span class="project-tag">Spring Cloud Gateway</span>
           <span class="project-tag">WebFlux</span>
@@ -929,29 +1396,25 @@
       </a>
 
       <a href="https://github.com/mohidev-tech/stock-market-processor" target="_blank" rel="noopener"
-         class="project-card reveal" data-tags="backend distributed">
-        <div class="project-head">
-          <span class="project-emoji">📈</span><span class="project-link">↗</span>
-        </div>
-        <h3>stock-market-processor</h3>
-        <p>Real-time market data ingest: REST → in-memory + Redis cache → STOMP WebSocket fan-out
-           + OHLC candlestick aggregation across 1m/5m/1h intervals.</p>
+         class="project-card reveal delay-2" data-tags="backend distributed">
+        <span class="project-emoji">📈</span>
+        <h3>stock market processor <span class="link-arrow">↗</span></h3>
+        <p>Real time market data ingest. REST to in memory and Redis cache to STOMP WebSocket fan out
+           and OHLC candlestick aggregation across 1m 5m 1h intervals.</p>
         <div class="project-tags">
           <span class="project-tag">Spring Boot</span>
           <span class="project-tag">WebSocket</span>
           <span class="project-tag">Redis</span>
-          <span class="project-tag">Real-Time</span>
+          <span class="project-tag">Real Time</span>
         </div>
       </a>
 
       <a href="https://github.com/mohidev-tech/cspm-scanner" target="_blank" rel="noopener"
          class="project-card reveal" data-tags="security">
-        <div class="project-head">
-          <span class="project-emoji">🛡️</span><span class="project-link">↗</span>
-        </div>
-        <h3>cspm-scanner</h3>
+        <span class="project-emoji">🛡️</span>
+        <h3>cspm scanner <span class="link-arrow">↗</span></h3>
         <p>Go CLI that scans Terraform for cloud misconfigs and maps every finding to
-           SOC2 / NIST / CIS. Zero credentials. SARIF for GitHub Code Scanning.</p>
+           SOC2, NIST, CIS. Zero credentials. SARIF for GitHub Code Scanning.</p>
         <div class="project-tags">
           <span class="project-tag">Go</span>
           <span class="project-tag">SOC2</span>
@@ -961,13 +1424,11 @@
       </a>
 
       <a href="https://github.com/mohidev-tech/secure-supply-chain" target="_blank" rel="noopener"
-         class="project-card reveal" data-tags="security">
-        <div class="project-head">
-          <span class="project-emoji">🛰️</span><span class="project-link">↗</span>
-        </div>
-        <h3>secure-supply-chain</h3>
-        <p>Reference CI: gosec + govulncheck + Trivy → buildx → syft SBOM → cosign keyless sign →
-           cosign attest SBOM → Kyverno verifyImages. SLSA-mapped.</p>
+         class="project-card reveal delay-1" data-tags="security">
+        <span class="project-emoji">🛰️</span>
+        <h3>secure supply chain <span class="link-arrow">↗</span></h3>
+        <p>Reference CI. gosec, govulncheck, Trivy, buildx, syft SBOM, cosign keyless sign,
+           cosign attest SBOM, Kyverno verifyImages. SLSA mapped.</p>
         <div class="project-tags">
           <span class="project-tag">Cosign</span>
           <span class="project-tag">Sigstore</span>
@@ -977,13 +1438,11 @@
       </a>
 
       <a href="https://github.com/mohidev-tech/zero-trust-k8s" target="_blank" rel="noopener"
-         class="project-card reveal" data-tags="security">
-        <div class="project-head">
-          <span class="project-emoji">🔒</span><span class="project-link">↗</span>
-        </div>
-        <h3>zero-trust-k8s</h3>
-        <p>Istio STRICT mTLS + AuthorizationPolicy + 4 Gatekeeper constraints + RBAC audit CLI.
-           A verify script with 4 pass/fail assertions proves enforcement is real.</p>
+         class="project-card reveal delay-2" data-tags="security">
+        <span class="project-emoji">🔒</span>
+        <h3>zero trust k8s <span class="link-arrow">↗</span></h3>
+        <p>Istio STRICT mTLS, AuthorizationPolicy, 4 Gatekeeper constraints, RBAC audit CLI.
+           A verify script with 4 pass fail assertions proves enforcement is real.</p>
         <div class="project-tags">
           <span class="project-tag">Istio</span>
           <span class="project-tag">mTLS</span>
@@ -994,28 +1453,24 @@
 
       <a href="https://github.com/mohidev-tech/runtime-detect" target="_blank" rel="noopener"
          class="project-card reveal" data-tags="security">
-        <div class="project-head">
-          <span class="project-emoji">🛰️</span><span class="project-link">↗</span>
-        </div>
-        <h3>runtime-detect</h3>
-        <p>Cloud-native runtime detection: Falco eBPF + Falcosidekick + Loki + Grafana + a Go
-           hunt-as-code CLI. Attack-sim trips every rule; verify-detect proves it landed in Loki.</p>
+        <span class="project-emoji">🛰️</span>
+        <h3>runtime detect <span class="link-arrow">↗</span></h3>
+        <p>Cloud native runtime detection. Falco eBPF, Falcosidekick, Loki, Grafana, and a Go
+           hunt as code CLI. Attack sim trips every rule. Verify detect proves it landed.</p>
         <div class="project-tags">
           <span class="project-tag">Falco</span>
           <span class="project-tag">eBPF</span>
           <span class="project-tag">Loki</span>
-          <span class="project-tag">MITRE ATT&amp;CK</span>
+          <span class="project-tag">MITRE</span>
         </div>
       </a>
 
       <a href="https://github.com/mohidev-tech/devsecops-warmup" target="_blank" rel="noopener"
-         class="project-card reveal" data-tags="security">
-        <div class="project-head">
-          <span class="project-emoji">🔧</span><span class="project-link">↗</span>
-        </div>
-        <h3>devsecops-warmup</h3>
-        <p>Reusable repo template: tiny Go service, multi-stage distroless Dockerfile, CI with
-           lint/test/build/Trivy + SARIF upload. The shape every other repo inherits.</p>
+         class="project-card reveal delay-1" data-tags="security">
+        <span class="project-emoji">🔧</span>
+        <h3>devsecops warmup <span class="link-arrow">↗</span></h3>
+        <p>Reusable repo template. Tiny Go service, multi stage distroless Dockerfile, CI with
+           lint test build Trivy and SARIF upload. The shape every other repo inherits.</p>
         <div class="project-tags">
           <span class="project-tag">Go</span>
           <span class="project-tag">Distroless</span>
@@ -1028,60 +1483,56 @@
   </div>
 </section>
 
-<!-- ─── Experience ────────────────────────────────────────────────── -->
+<!-- ====================== EXPERIENCE ====================== -->
 <section id="experience">
   <div class="container">
-    <div class="reveal">
-      <div class="section-label">// 04 — experience</div>
-      <h2 class="section-title">Where I've shipped</h2>
-    </div>
+    <div class="section-num reveal">Experience</div>
+    <h2 class="section-title"><span class="word">Where</span> <span class="word">I&apos;ve</span> <span class="word">shipped.</span></h2>
     <div class="timeline">
       <div class="timeline-item reveal">
         <h3>Wells Fargo</h3>
         <div class="role">Software Engineer</div>
-        <div class="meta">San Francisco, CA &nbsp;·&nbsp; May 2024 — Present</div>
+        <div class="meta">San Francisco, CA &nbsp;//&nbsp; May 2024 to Present</div>
         <ul>
-          <li>Built fault-tolerant backends ingesting <strong>5K events/sec at 99.95% uptime</strong> across 3 regions</li>
-          <li>Cut p99 latency <strong>180ms → 140ms</strong> with Kafka pipelines + low-latency C++17/20 components</li>
-          <li>Implemented Prometheus/Grafana observability across 15 services — <strong>35% MTTR reduction</strong></li>
-          <li>Right-sized JVM heaps + EKS node groups for <strong>22% monthly compute savings</strong></li>
+          <li>Built fault tolerant backends ingesting <strong>5K events per second at 99.95% uptime</strong> across 3 regions</li>
+          <li>Cut p99 latency <strong>180ms to 140ms</strong> with Kafka pipelines and low latency C++ 17/20 components</li>
+          <li>Implemented Prometheus and Grafana observability across 15 services. <strong>35% MTTR reduction</strong></li>
+          <li>Right sized JVM heaps and EKS node groups for <strong>22% monthly compute savings</strong></li>
           <li>Shipped 10 features over 2 quarters with zero unplanned downtime</li>
         </ul>
       </div>
-      <div class="timeline-item reveal">
+      <div class="timeline-item reveal delay-1">
         <h3>IKEA</h3>
         <div class="role">Software Development Engineer</div>
-        <div class="meta">Hyderabad, India &nbsp;·&nbsp; Aug 2020 — Jun 2023</div>
+        <div class="meta">Hyderabad, India &nbsp;//&nbsp; Aug 2020 to Jun 2023</div>
         <ul>
-          <li>Built Kafka inventory telemetry pipelines across 5 warehouses with sub-10ms ingest latency</li>
-          <li>Migrated <strong>8 monolithic batch jobs → containerized microservices</strong>; 28% compute cost cut</li>
-          <li>Designed PostgreSQL + Redis schema + cache-aside layer — <strong>35% read throughput gain</strong></li>
-          <li>Deployed metrics/logs/tracing across 10 services; 40% faster incident resolution</li>
+          <li>Built Kafka inventory telemetry pipelines across 5 warehouses with sub 10ms ingest latency</li>
+          <li>Migrated <strong>8 monolithic batch jobs to containerized microservices</strong>. 28% compute cost cut</li>
+          <li>Designed PostgreSQL and Redis schema and cache aside layer. <strong>35% read throughput gain</strong></li>
+          <li>Deployed metrics, logs, tracing across 10 services. 40% faster incident resolution</li>
         </ul>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ─── Education ─────────────────────────────────────────────────── -->
+<!-- ====================== EDUCATION ====================== -->
 <section id="education">
   <div class="container">
-    <div class="reveal">
-      <div class="section-label">// 05 — education &amp; certs</div>
-      <h2 class="section-title">Credentials</h2>
-    </div>
+    <div class="section-num reveal">Credentials</div>
+    <h2 class="section-title"><span class="word">Education</span> <span class="word">and</span> <span class="word">certs.</span></h2>
     <div class="edu-grid">
       <div class="edu-card reveal">
-        <div class="label">Master's</div>
-        <h3>M.S. Computer Science &amp; Information Systems</h3>
+        <div class="label">Masters</div>
+        <h3>M.S. Computer Science and Information Systems</h3>
         <div class="sub">University of Central Missouri, USA</div>
       </div>
-      <div class="edu-card reveal">
-        <div class="label">Bachelor's</div>
+      <div class="edu-card reveal delay-1">
+        <div class="label">Bachelors</div>
         <h3>B.Tech Computer Science</h3>
         <div class="sub">JNTUK, India</div>
       </div>
-      <div class="edu-card reveal">
+      <div class="edu-card reveal delay-2">
         <div class="label">Cloud</div>
         <h3>AWS Certified Cloud Practitioner</h3>
         <div class="sub">Amazon Web Services</div>
@@ -1095,36 +1546,43 @@
   </div>
 </section>
 
-<!-- ─── Contact ───────────────────────────────────────────────────── -->
+<!-- ====================== CONTACT ====================== -->
 <section id="contact" class="contact">
-  <div class="container reveal">
-    <div class="section-label">// 06 — get in touch</div>
-    <h2>Let's build something.</h2>
-    <p>
-      Open to backend, distributed systems, low-latency C++, and platform-security roles.
+  <div class="container">
+    <div class="contact-eyebrow reveal">Get In Touch</div>
+    <h2 class="reveal delay-1">Let&apos;s build <span class="gradient">something.</span></h2>
+    <p class="reveal delay-2">
+      Open to backend, distributed systems, low latency C++, and platform security roles.
       Open to relocate. I reply within a day.
     </p>
-    <a href="mailto:vmohith0712@gmail.com" class="contact-cta">
-      vmohith0712@gmail.com &nbsp;→
+    <a href="mailto:vmohith0712@gmail.com" class="contact-mail reveal delay-3">
+      vmohith0712@gmail.com <span class="arrow">→</span>
     </a>
+    <div class="contact-socials reveal delay-3">
+      <a href="https://github.com/mohidev-tech" target="_blank" rel="noopener">GitHub</a>
+      <a href="tel:+16203010037">+1 (620) 301 0037</a>
+    </div>
   </div>
 </section>
 
 <footer>
-  <div>
-    <a href="https://github.com/mohidev-tech" target="_blank" rel="noopener">GitHub</a>
-    &middot;
-    <a href="mailto:vmohith0712@gmail.com">Email</a>
-    &middot;
-    <a href="tel:+16203010037">+1&nbsp;(620)&nbsp;301-0037</a>
-  </div>
-  <div style="margin-top:.5rem; opacity:.65;">
-    Built by hand &middot; HTML/CSS/JS, no frameworks &middot; deploys to GitHub Pages.
-  </div>
+  <div>Built by hand. HTML, CSS, JS. No frameworks. No tracking.</div>
+  <div class="ascii">&copy; 2026 Mohith V.</div>
 </footer>
 
 <script>
-  // ─── Theme toggle ─────────────────────────────────────────────────
+  /* ============================================================
+     LOADER HIDE
+     ============================================================ */
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('loader').classList.add('gone');
+    }, 1800);
+  });
+
+  /* ============================================================
+     THEME TOGGLE
+     ============================================================ */
   const root = document.documentElement;
   const toggle = document.getElementById('theme-toggle');
   const saved = localStorage.getItem('theme');
@@ -1134,23 +1592,32 @@
   };
   setIcon();
   toggle.addEventListener('click', () => {
-    const cur = root.getAttribute('data-theme');
-    const next = cur === 'dark' ? 'light' : 'dark';
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     root.setAttribute('data-theme', next);
     localStorage.setItem('theme', next);
     setIcon();
   });
 
-  // ─── Role typewriter ──────────────────────────────────────────────
+  /* ============================================================
+     NAV SHRINK
+     ============================================================ */
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  /* ============================================================
+     ROLE TYPEWRITER (cinematic)
+     ============================================================ */
   (function typewriter() {
     const el = document.getElementById('role');
     if (!el) return;
     const words = [
       'backend systems',
       'distributed systems',
-      'low-latency services',
-      'event-driven platforms',
-      'secured Kubernetes platforms',
+      'low latency services',
+      'event driven platforms',
+      'secured kubernetes platforms',
       'reliable software'
     ];
     let wi = 0, ci = 0, deleting = false;
@@ -1158,90 +1625,195 @@
       const w = words[wi];
       el.textContent = w.slice(0, ci);
       if (!deleting) {
-        if (ci < w.length) { ci++; setTimeout(tick, 80); }
-        else { setTimeout(() => { deleting = true; tick(); }, 1800); }
+        if (ci < w.length) { ci++; setTimeout(tick, 70); }
+        else { setTimeout(() => { deleting = true; tick(); }, 1900); }
       } else {
-        if (ci > 0) { ci--; setTimeout(tick, 35); }
-        else { deleting = false; wi = (wi + 1) % words.length; setTimeout(tick, 200); }
+        if (ci > 0) { ci--; setTimeout(tick, 30); }
+        else { deleting = false; wi = (wi + 1) % words.length; setTimeout(tick, 220); }
       }
     }
-    tick();
+    setTimeout(tick, 2200);
   })();
 
-  // ─── Reveal on scroll ─────────────────────────────────────────────
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('in');
-        observer.unobserve(entry.target);
+  /* ============================================================
+     REVEAL ON SCROLL
+     ============================================================ */
+  const ioReveal = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        ioReveal.unobserve(e.target);
       }
     });
-  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => ioReveal.observe(el));
 
-  // ─── Project filtering ───────────────────────────────────────────
+  const ioTitle = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        ioTitle.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('.section-title').forEach(el => ioTitle.observe(el));
+
+  /* ============================================================
+     COUNTERS (count up on enter)
+     ============================================================ */
+  const counters = document.querySelectorAll('.stat .num');
+  const ioCount = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      ioCount.unobserve(e.target);
+      const el = e.target;
+      const target = parseFloat(el.dataset.target);
+      const suffix = el.dataset.suffix || '';
+      const isFloat = !Number.isInteger(target);
+      const duration = 1600;
+      const start = performance.now();
+      function step(now) {
+        const p = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - p, 3);
+        const v = target * eased;
+        el.textContent = (isFloat ? v.toFixed(2) : Math.floor(v)) + suffix;
+        if (p < 1) requestAnimationFrame(step);
+        else el.textContent = (isFloat ? target.toFixed(2) : target) + suffix;
+      }
+      requestAnimationFrame(step);
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(c => ioCount.observe(c));
+
+  /* ============================================================
+     PROJECT FILTERS
+     ============================================================ */
   const filterBtns = document.querySelectorAll('.filter-btn');
   const cards = document.querySelectorAll('.project-card');
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const f = btn.dataset.filter;
-      cards.forEach(card => {
-        const tags = card.dataset.tags || '';
-        if (f === 'all' || tags.includes(f)) {
-          card.classList.remove('hidden');
-        } else {
-          card.classList.add('hidden');
-        }
-      });
+  filterBtns.forEach(btn => btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.filter;
+    cards.forEach(c => {
+      const tags = c.dataset.tags || '';
+      c.classList.toggle('hidden', f !== 'all' && !tags.includes(f));
+    });
+  }));
+
+  /* ============================================================
+     PROJECT CARD CURSOR-TRACK GLOW + 3D TILT
+     ============================================================ */
+  document.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = e.clientX - r.left;
+      const y = e.clientY - r.top;
+      card.style.setProperty('--cx', (x / r.width * 100) + '%');
+      card.style.setProperty('--cy', (y / r.height * 100) + '%');
+      const rx = ((y / r.height) - 0.5) * -5;
+      const ry = ((x / r.width)  - 0.5) *  5;
+      card.style.transform = `translateY(-8px) perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
     });
   });
 
-  // ─── Particle network background ─────────────────────────────────
-  // ~120 particles connected by lines when within range. Lightweight, no library.
+  /* ============================================================
+     MAGNETIC BUTTONS
+     ============================================================ */
+  document.querySelectorAll('.magnet').forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+      const r = btn.getBoundingClientRect();
+      const x = e.clientX - r.left - r.width / 2;
+      const y = e.clientY - r.top - r.height / 2;
+      btn.style.transform = `translate(${x * 0.25}px, ${y * 0.35}px)`;
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = '';
+    });
+  });
+
+  /* ============================================================
+     CUSTOM CURSOR + MOUSE SPOTLIGHT
+     ============================================================ */
+  const dot = document.querySelector('.cursor-dot');
+  const ring = document.querySelector('.cursor-ring');
+  const spotlight = document.querySelector('.mouse-spotlight');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  window.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    if (dot) dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%,-50%)`;
+    if (spotlight) {
+      spotlight.style.setProperty('--mx', mx + 'px');
+      spotlight.style.setProperty('--my', my + 'px');
+    }
+  });
+  function ringLoop() {
+    rx += (mx - rx) * 0.18;
+    ry += (my - ry) * 0.18;
+    if (ring) ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%,-50%)`;
+    requestAnimationFrame(ringLoop);
+  }
+  ringLoop();
+
+  // Cursor grows on interactive elements
+  const interactiveSel = 'a, button, .project-card, .stat, .chip, .filter-btn, .edu-card, .skill-cat';
+  document.querySelectorAll(interactiveSel).forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-grow'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-grow'));
+  });
+
+  /* ============================================================
+     PARTICLE NETWORK BACKGROUND
+     ============================================================ */
   (function particles() {
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
     let w, h, dots;
     function size() {
-      w = canvas.width = window.innerWidth * devicePixelRatio;
-      h = canvas.height = window.innerHeight * devicePixelRatio;
+      const dpr = window.devicePixelRatio || 1;
+      w = canvas.width = window.innerWidth * dpr;
+      h = canvas.height = window.innerHeight * dpr;
       canvas.style.width = window.innerWidth + 'px';
       canvas.style.height = window.innerHeight + 'px';
-      ctx.scale(devicePixelRatio, devicePixelRatio);
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.scale(dpr, dpr);
     }
     function init() {
       size();
-      const count = Math.min(120, Math.floor((window.innerWidth * window.innerHeight) / 14000));
+      const area = window.innerWidth * window.innerHeight;
+      const count = Math.min(140, Math.floor(area / 13000));
       dots = Array.from({ length: count }, () => ({
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,
-        vx: (Math.random() - 0.5) * 0.35,
-        vy: (Math.random() - 0.5) * 0.35,
+        vx: (Math.random() - 0.5) * 0.32,
+        vy: (Math.random() - 0.5) * 0.32,
       }));
     }
-    function color(alpha) {
+    function rgba(alpha) {
       const isDark = root.getAttribute('data-theme') === 'dark';
-      return isDark ? `rgba(94,234,212,${alpha})` : `rgba(14,165,233,${alpha})`;
+      return isDark
+        ? `rgba(34, 211, 238, ${alpha})`
+        : `rgba(8, 145, 178, ${alpha})`;
     }
     function draw() {
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
       for (const d of dots) {
         d.x += d.vx; d.y += d.vy;
-        if (d.x < 0 || d.x > window.innerWidth) d.vx *= -1;
+        if (d.x < 0 || d.x > window.innerWidth)  d.vx *= -1;
         if (d.y < 0 || d.y > window.innerHeight) d.vy *= -1;
       }
-      const max = 140;
+      const max = 150;
       for (let i = 0; i < dots.length; i++) {
         for (let j = i + 1; j < dots.length; j++) {
           const dx = dots[i].x - dots[j].x;
           const dy = dots[i].y - dots[j].y;
           const d = Math.hypot(dx, dy);
           if (d < max) {
-            ctx.beginPath();
-            ctx.strokeStyle = color(0.18 * (1 - d / max));
+            ctx.strokeStyle = rgba(0.18 * (1 - d / max));
             ctx.lineWidth = 1;
+            ctx.beginPath();
             ctx.moveTo(dots[i].x, dots[i].y);
             ctx.lineTo(dots[j].x, dots[j].y);
             ctx.stroke();
@@ -1249,9 +1821,9 @@
         }
       }
       for (const d of dots) {
+        ctx.fillStyle = rgba(0.55);
         ctx.beginPath();
-        ctx.fillStyle = color(0.5);
-        ctx.arc(d.x, d.y, 1.6, 0, Math.PI * 2);
+        ctx.arc(d.x, d.y, 1.5, 0, Math.PI * 2);
         ctx.fill();
       }
       requestAnimationFrame(draw);
@@ -1260,21 +1832,6 @@
     window.addEventListener('resize', init);
     draw();
   })();
-
-  // ─── 3D-tilt on project cards (mouse follow) ────────────────────
-  document.querySelectorAll('.project-card').forEach(card => {
-    card.addEventListener('mousemove', e => {
-      const r = card.getBoundingClientRect();
-      const x = e.clientX - r.left;
-      const y = e.clientY - r.top;
-      const rx = ((y / r.height) - 0.5) * -6;
-      const ry = ((x / r.width)  - 0.5) *  6;
-      card.style.transform = `translateY(-6px) perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg)`;
-    });
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = '';
-    });
-  });
 </script>
 
 </body>
